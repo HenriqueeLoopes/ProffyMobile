@@ -28,7 +28,7 @@ function Favorites() {
   );
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <PageHeader title="Meus Proffys favoritos" />
       <ScrollView
         style={styles.teacherList}
@@ -38,7 +38,7 @@ function Favorites() {
           return <TeacherItem key={index} teacher={teacher} favorited />;
         })}
       </ScrollView>
-    </View>
+    </ScrollView>
   );
 }
 
