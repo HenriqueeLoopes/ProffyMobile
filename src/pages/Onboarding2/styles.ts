@@ -7,14 +7,13 @@ const styles = StyleSheet.create({
   },
   topBar: {
     backgroundColor: "#04D361",
-    flex: 1,
+    flex: 4,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 50,
   },
   bottomBar: {
     backgroundColor: "#FFF",
-    flex: 2,
+    flex: 5,
     justifyContent: "center",
     paddingHorizontal: 40,
   },

@@ -21,7 +21,7 @@ function Onboarding2() {
         <ImageBackground
           source={backgroundImg}
           style={styles.banner}
-          resizeMode="repeat"
+          resizeMode="contain"
         >
           <Image source={tvIcon} style={styles.estudarIcon} />
         </ImageBackground>
