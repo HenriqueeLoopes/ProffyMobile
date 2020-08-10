@@ -12,7 +12,7 @@ import styles from "./styles";
 function Onboarding2() {
   const navigation = useNavigation();
   function handleNextPage() {
-    navigation.navigate("Landing");
+    navigation.navigate("Login");
     return;
   }
   return (

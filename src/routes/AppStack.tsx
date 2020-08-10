@@ -7,6 +7,7 @@ import GiveClasses from "../pages/GiveClasses";
 import StudyTabs from "./StudyTabs";
 import Onboarding from "../pages/Onboarding";
 import Onboarding2 from "../pages/Onboarding2";
+import Login from "../pages/Login";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -16,6 +17,7 @@ function AppStack() {
       <Navigator initialRouteName="Onboarding1" screenOptions={{ headerShown: false }}>
         <Screen name="Onboarding1" component={Onboarding} />
         <Screen name="Onboarding2" component={Onboarding2} />
+        <Screen name="Login" component={Login} />
         <Screen name="Landing" component={Landing} />
         <Screen name="GiveClasses" component={GiveClasses} />
         <Screen name="Study" component={StudyTabs} />
