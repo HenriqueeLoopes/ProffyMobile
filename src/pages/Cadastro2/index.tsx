@@ -1,29 +1,16 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  ImageBackground,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { View, Text, KeyboardAvoidingView, Platform, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import {
-  TextInput,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
 
-import backgroundImg from "../../assets/images/icons/purble-bubbles-backgorund.png";
-import logoImg from "../../assets/images/logo.png";
 import showPasswordIcon from "../../assets/images/icons/show-password.png";
 import hidePasswordIcon from "../../assets/images/icons/hide-password.png";
 
 import styles from "./styles";
 
-function Login() {
+function Cadastro2() {
   const [securePasswordInput, setsecurePasswordInput] = useState(true);
-  const [remebemberMe, setremebemberMe] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
@@ -44,36 +31,27 @@ function Login() {
     }
   }, [password]);
 
-  function handlePressLogin() {
+  function handlePressNext() {
+    //navigation.navigate('Cadastro2');
     return;
   }
-
-  function handlePressSignUP(){
-    return navigation.navigate('Cadastro1');
-  }
-
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS == "ios" ? "padding" : undefined}
     >
-      <View style={styles.topBar}>
-        <ImageBackground
-          source={backgroundImg}
-          style={styles.banner}
-          resizeMode="contain"
-        >
-          <Image source={logoImg} style={styles.logoImg} resizeMode="contain" />
-          <Text style={styles.logoText}>Sua plataforma de estudos online.</Text>
-        </ImageBackground>
+      <View style={styles.headerTop}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="ios-arrow-round-back" size={30} />
+        </TouchableOpacity>
+        <Text style={styles.nextPageSection}>
+          .<Text style={styles.currentPageSection}>.</Text>
+        </Text>
       </View>
 
       <View style={styles.bottomBar}>
-        <View style={styles.topLogin}>
-          <Text style={styles.fazerLoginText}>Fazer Login</Text>
-          <TouchableOpacity onPress={handlePressSignUP} >
-            <Text style={styles.criarContaText}>Criar uma conta</Text>
-          </TouchableOpacity>
+        <View style={styles.topText}>
+          <Text style={styles.title}>02. Email e Senha</Text>
         </View>
 
         <View style={styles.InputContainer}>
@@ -121,40 +99,20 @@ function Login() {
           </View>
         </View>
 
-        <View style={styles.bottomLogin}>
-          <View style={styles.remebemberMeAndLostPassword}>
-            <TouchableOpacity onPress={() => setremebemberMe(!remebemberMe)}>
-              <MaterialCommunityIcons
-                style={{ color: remebemberMe ? "#04D361" : "#000" }}
-                name={remebemberMe ? "check-circle" : "check-circle-outline"}
-                size={26}
-              />
-            </TouchableOpacity>
-            <Text style={styles.remebemberMeAndLostPasswordText}>
-              Lembrar-me
-            </Text>
-            <TouchableOpacity>
-              <Text style={styles.remebemberMeAndLostPasswordText}>
-                Esqueci minha senha
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.loginButtonContainer}>
+        <View style={styles.nextButtonContainer}>
           <TouchableOpacity
-            style={validated ? styles.loginButtonSelected : styles.loginButton}
-            onPress={handlePressLogin}
+            style={validated ? styles.nextButtonSelected : styles.nextButton}
+            onPress={handlePressNext}
             disabled={validated ? false : true}
           >
             <Text
               style={
                 validated
-                  ? styles.loginButtonTextSelected
-                  : styles.loginButtonText
+                  ? styles.nextButtonTextSelected
+                  : styles.nextButtonText
               }
             >
-              Entrar
+              Concluir cadastro
             </Text>
           </TouchableOpacity>
         </View>
@@ -163,4 +121,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Cadastro2;

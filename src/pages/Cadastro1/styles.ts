@@ -3,44 +3,60 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: "#F0F0F7",
+  },
+  headerTop: {
+    flex: 1,
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 25,
+  },
+  currentPageSection: {
+    color: "#8257E5",
+    fontSize: 40,
+  },
+  nextPageSection: {
+    color: "#C1BCCC",
+    fontSize: 40,
   },
   topBar: {
-    backgroundColor: "#8257E5",
-    flex: 4,
-  },
-  banner: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    marginLeft: 35,
   },
-  logoImg: {
-    width: 160,
-    height: 60,
+  titleText: {
+    color: "#32264D",
+    maxWidth: 240,
+    fontFamily: "Poppins_600SemiBold",
+    fontSize: 32,
+    lineHeight: 42,
+    marginBottom: 10,
   },
-  logoText: {
-    color: "#D4C2FF",
-    maxWidth: 150,
-    fontFamily: "Archivo_400Regular",
-    fontSize: 16,
+  titleDescriptionText: {
+    color: "#6A6180",
+    maxWidth: 200,
+    fontFamily: "Poppins_400Regular",
+    fontSize: 14,
+    lineHeight: 24,
   },
   bottomBar: {
-    backgroundColor: "#FFF",
-    flex: 5,
+    backgroundColor: "#F0F0F7",
+    flex: 3,
     paddingHorizontal: 30,
     marginTop: 40,
   },
-  topLogin: {
+  topText: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginVertical: 30,
   },
-  fazerLoginText: {
+  title: {
     fontFamily: "Poppins_600SemiBold",
     fontSize: 24,
     color: "#32264D",
-    lineHeight: 34,
+    lineHeight: 26,
   },
   criarContaText: {
     color: "#8257E5",
@@ -58,46 +74,30 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  bottomLogin: {
-    alignItems: "center",
-    marginVertical: 15,
-    marginHorizontal: 5,
-    flexDirection: "row",
+  nextButtonContainer: {
+      marginVertical: 30,
   },
-  remebemberMeAndLostPassword: {
-    justifyContent: "space-between",
-    alignItems: 'center',
-    flexDirection: "row",
-    flex: 1,
-  },
-  remebemberMeAndLostPasswordText: {
-    color: "#9C98A6",
-    fontSize: 12,
-    fontFamily: "Poppins_400Regular",
-    lineHeight: 24,
-  },
-  loginButtonContainer: {},
-  loginButton: {
+  nextButton: {
     backgroundColor: "#DCDCE5",
     borderRadius: 8,
     height: 60,
     justifyContent: "center",
     alignItems: "center",
   },
-  loginButtonSelected: {
-    backgroundColor: "#04D361",
+  nextButtonSelected: {
+    backgroundColor: "#8257E5",
     borderRadius: 8,
     height: 60,
     justifyContent: "center",
     alignItems: "center",
   },
-  loginButtonText: {
+  nextButtonText: {
     color: "#9C98A6",
     fontFamily: "Archivo_600SemiBold",
     fontSize: 16,
     lineHeight: 26,
   },
-  loginButtonTextSelected: {
+  nextButtonTextSelected: {
     color: "#FFFFFF",
     fontFamily: "Archivo_600SemiBold",
     fontSize: 16,
