@@ -18,6 +18,8 @@ import showPasswordIcon from "../../assets/images/icons/show-password.png";
 import hidePasswordIcon from "../../assets/images/icons/hide-password.png";
 
 import styles from "./styles";
+import api from "../../services/api";
+import AsyncStorage from "@react-native-community/async-storage";
 
 function Login() {
   const [securePasswordInput, setsecurePasswordInput] = useState(true);
@@ -25,6 +27,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
+  const [error, setError] = useState('');
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -42,7 +45,35 @@ function Login() {
     }
   }, [password]);
 
-  function handlePressLogin() {
+  async function handlePressLogin() {
+    try {
+      const response = await api.post("/login-user", {
+        email,
+        senha: password,
+      });
+      if (response.status === 200) {
+        const { error, message, data } = response.data;
+        if (remebemberMe){
+          await AsyncStorage.setItem('@rememberme', 'True');
+        }else{
+          await AsyncStorage.setItem('@rememberme', 'False');
+        }
+        await AsyncStorage.setItem('@name', data.name);
+        await AsyncStorage.setItem('@email', email);
+        await AsyncStorage.setItem('@avatar', data.avatar || '');
+        await AsyncStorage.setItem('@bio', data.bio || '');
+        setError('');
+        return navigation.navigate('Landing');
+      }
+      return;
+    } catch (error) {
+      if (error.response.status === 401){
+        return setError('Tem certeza que seus dados estao corretos?');
+      }else if (error.response.status >= 250 ){
+        return setError('estamos com problemas nos servidores, aguarde por favor ;(');
+      }
+      return console.log(error.response);
+    }
     return;
   }
 
@@ -55,7 +86,7 @@ function Login() {
       style={styles.container}
       behavior={Platform.OS == "ios" ? "padding" : undefined}
     >
-      <StatusBar style='light' />
+      <StatusBar style="light" />
       <View style={styles.topBar}>
         <ImageBackground
           source={backgroundImg}
@@ -74,7 +105,11 @@ function Login() {
             <Text style={styles.criarContaText}>Criar uma conta</Text>
           </TouchableOpacity>
         </View>
-
+        {error ? (
+          <View style={styles.error}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        ) : null}
         <View style={styles.InputContainer}>
           <View style={styles.inputText}>
             <TextInput
@@ -130,7 +165,12 @@ function Login() {
                 size={26}
               />
             </TouchableOpacity>
-            <Text style={[styles.remebemberMeAndLostPasswordText, { marginLeft: -65 }]}>
+            <Text
+              style={[
+                styles.remebemberMeAndLostPasswordText,
+                { marginLeft: -65 },
+              ]}
+            >
               Lembrar-me
             </Text>
             <TouchableOpacity>

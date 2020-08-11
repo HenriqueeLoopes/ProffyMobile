@@ -48,6 +48,16 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_400Regular",
     lineHeight: 24,
   },
+  error: {
+    marginLeft: 5,
+    marginBottom: 10,
+  },
+  errorText: {
+    color: 'red',
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    lineHeight: 20,
+  },
   InputContainer: {
     flexDirection: "column",
     backgroundColor: "#FAFAFD",
