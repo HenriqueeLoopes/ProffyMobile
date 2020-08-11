@@ -1,17 +1,24 @@
 import React from "react";
 import { View, Text, Image, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { BorderlessButton } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import backgroundImg from "../../assets/images/icons/green-bubbles-background.png";
 import tvIcon from "../../assets/images/icons/tv-icon.png";
 import nextIcon from "../../assets/images/icons/back.png";
 
 import styles from "./styles";
+import AsyncStorage from "@react-native-community/async-storage";
 
 function Onboarding2() {
   const navigation = useNavigation();
-  function handleNextPage() {
+  async function handleNextPage() {
+    try{
+      const saveOnboarding = await AsyncStorage.setItem('@onBoarding', 'True');
+      navigation.navigate("Login");
+    }catch(e){
+      console.warn(e);
+    }
     navigation.navigate("Login");
     return;
   }
@@ -35,9 +42,9 @@ function Onboarding2() {
           <Text style={styles.othersPageIndicator}>
             .<Text style={styles.currentPageIndicator}>.</Text>
           </Text>
-          <BorderlessButton onPress={handleNextPage} style={styles.nextButton}>
+          <TouchableOpacity onPress={handleNextPage} style={styles.nextButton}>
             <Image source={nextIcon} style={styles.nextIcon} />
-          </BorderlessButton>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

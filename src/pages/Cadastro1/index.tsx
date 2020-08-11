@@ -101,6 +101,7 @@ function Cadastro1() {
             style={validated ? styles.nextButtonSelected : styles.nextButton}
             onPress={handlePressNext}
             disabled={validated ? false : true}
+            activeOpacity={0.6}
           >
             <Text
               style={

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { BorderlessButton } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import backgroundImg from "../../assets/images/icons/purble-bubbles-backgorund.png";
 import bookIcon from "../../assets/images/icons/book-icon.png";
@@ -35,9 +35,9 @@ function Onboarding() {
           <Text style={styles.currentPageIndicator}>
             .<Text style={styles.othersPageIndicator}>.</Text>
           </Text>
-          <BorderlessButton onPress={handleNextPage} style={styles.nextButton}>
+          <TouchableOpacity onPress={handleNextPage} style={styles.nextButton}>
             <Image source={nextIcon} style={styles.nextIcon} />
-          </BorderlessButton>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

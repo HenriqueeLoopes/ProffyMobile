@@ -8,10 +8,7 @@ import {
   Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import {
-  TextInput,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import backgroundImg from "../../assets/images/icons/purble-bubbles-backgorund.png";
@@ -48,8 +45,8 @@ function Login() {
     return;
   }
 
-  function handlePressSignUP(){
-    return navigation.navigate('Cadastro1');
+  function handlePressSignUP() {
+    return navigation.navigate("Cadastro1");
   }
 
   return (
@@ -71,7 +68,7 @@ function Login() {
       <View style={styles.bottomBar}>
         <View style={styles.topLogin}>
           <Text style={styles.fazerLoginText}>Fazer Login</Text>
-          <TouchableOpacity onPress={handlePressSignUP} >
+          <TouchableOpacity onPress={handlePressSignUP}>
             <Text style={styles.criarContaText}>Criar uma conta</Text>
           </TouchableOpacity>
         </View>
@@ -110,6 +107,7 @@ function Login() {
             />
             <TouchableOpacity
               onPress={() => setsecurePasswordInput(!securePasswordInput)}
+              activeOpacity={0.6}
             >
               <Image
                 style={{ tintColor: "#8257E5" }}
@@ -130,7 +128,7 @@ function Login() {
                 size={26}
               />
             </TouchableOpacity>
-            <Text style={styles.remebemberMeAndLostPasswordText}>
+            <Text style={[styles.remebemberMeAndLostPasswordText, { marginLeft: -65 }]}>
               Lembrar-me
             </Text>
             <TouchableOpacity>
