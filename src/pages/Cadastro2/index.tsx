@@ -1,19 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, KeyboardAvoidingView, Platform, Image } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  Image,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import {
+  PacmanIndicator
+} from "react-native-indicators";
 
 import showPasswordIcon from "../../assets/images/icons/show-password.png";
 import hidePasswordIcon from "../../assets/images/icons/hide-password.png";
 
 import styles from "./styles";
+import api from "../../services/api";
 
-function Cadastro2() {
+interface Cadastro2 {
+  name: string;
+  lastname: string;
+}
+
+const Cadastro2: React.FC<Cadastro2> = (props) => {
   const [securePasswordInput, setsecurePasswordInput] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState(props.name);
+  const [lastName, setLastName] = useState(props.lastname);
   const [validated, setValidated] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -31,9 +50,33 @@ function Cadastro2() {
     }
   }, [password]);
 
-  function handlePressNext() {
-    navigation.navigate('SucessSignUp');
-    return;
+  async function handlePressNext() {
+    if (validated) {
+      setLoading(true);
+      try {
+        const response = await api.post(
+          "/create-user",
+          { email, password, name: (name + ' ' + lastName) },
+          { timeout: 2000 }
+        );
+        if (response.status === 201) {
+          setLoading(false);
+          return navigation.navigate("SucessSignUp");
+        }
+      } catch (error) {
+        setLoading(false);
+        if (error.response) {
+          return setError("algo deu errado ao realizar o seu cadastro ;(");
+        } else if (error.request) {
+          return setError(
+            "estamos com problemas nos servidores, aguarde por favor ;("
+          );
+        }
+        setError("estamos com problemas nos servidores, aguarde por favor ;(");
+        return console.log(error.response);
+      }
+    }
+    return setError("Preencha todos os campos corretamente.");
   }
   return (
     <KeyboardAvoidingView
@@ -53,7 +96,11 @@ function Cadastro2() {
         <View style={styles.topText}>
           <Text style={styles.title}>02. Email e Senha</Text>
         </View>
-
+        {error ? (
+          <View style={styles.error}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        ) : null}
         <View style={styles.InputContainer}>
           <View style={styles.inputText}>
             <TextInput
@@ -106,20 +153,24 @@ function Cadastro2() {
             disabled={validated ? false : true}
             activeOpacity={0.6}
           >
-            <Text
-              style={
-                validated
-                  ? styles.nextButtonTextSelected
-                  : styles.nextButtonText
-              }
-            >
-              Concluir cadastro
-            </Text>
+            {loading ? (
+              <PacmanIndicator color="white" size={50} animating={loading} />
+            ) : (
+              <Text
+                style={
+                  validated
+                    ? styles.nextButtonTextSelected
+                    : styles.nextButtonText
+                }
+              >
+                Concluir cadastro
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>
     </KeyboardAvoidingView>
   );
-}
+};
 
 export default Cadastro2;

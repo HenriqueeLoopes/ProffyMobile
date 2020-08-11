@@ -11,6 +11,9 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  PacmanIndicator
+} from "react-native-indicators";
 
 import backgroundImg from "../../assets/images/icons/purble-bubbles-backgorund.png";
 import logoImg from "../../assets/images/logo.png";
@@ -27,7 +30,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validated, setValidated] = useState(false);
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -47,31 +51,42 @@ function Login() {
 
   async function handlePressLogin() {
     try {
+      setLoading(true);
       const response = await api.post("/login-user", {
         email,
         senha: password,
-      });
+      }, { timeout: 2000 });
       if (response.status === 200) {
         const { error, message, data } = response.data;
-        if (remebemberMe){
-          await AsyncStorage.setItem('@rememberme', 'True');
-        }else{
-          await AsyncStorage.setItem('@rememberme', 'False');
+        if (remebemberMe) {
+          await AsyncStorage.setItem("@rememberme", "True");
+        } else {
+          await AsyncStorage.setItem("@rememberme", "False");
         }
-        await AsyncStorage.setItem('@name', data.name);
-        await AsyncStorage.setItem('@email', email);
-        await AsyncStorage.setItem('@avatar', data.avatar || '');
-        await AsyncStorage.setItem('@bio', data.bio || '');
-        setError('');
-        return navigation.navigate('Landing');
+        await AsyncStorage.setItem("@name", data.name);
+        await AsyncStorage.setItem("@email", email);
+        await AsyncStorage.setItem("@avatar", data.avatar || "");
+        await AsyncStorage.setItem("@bio", data.bio || "");
+        setError("");
+        setLoading(false);
+        return navigation.navigate("Landing");
       }
       return;
     } catch (error) {
-      if (error.response.status === 401){
-        return setError('Tem certeza que seus dados estao corretos?');
-      }else if (error.response.status >= 250 ){
-        return setError('estamos com problemas nos servidores, aguarde por favor ;(');
+      setLoading(false);
+      if (error.response){
+        if (error.response.status === 401){
+          return setError(
+            "Tem certeza que seus dados estao corretos?");
+        }
+        return setError(
+          "algo deu errado durante a verificacao ;(");
+      }else if (error.request){
+        return setError(
+          "estamos com problemas nos servidores, aguarde por favor ;(");
       }
+      setError(
+        "estamos com problemas nos servidores, aguarde por favor ;(");
       return console.log(error.response);
     }
     return;
@@ -187,15 +202,19 @@ function Login() {
             onPress={handlePressLogin}
             disabled={validated ? false : true}
           >
-            <Text
-              style={
-                validated
-                  ? styles.loginButtonTextSelected
-                  : styles.loginButtonText
-              }
-            >
-              Entrar
-            </Text>
+            {loading ? (
+              <PacmanIndicator color="white" size={50} animating={loading} />
+            ) : (
+              <Text
+                style={
+                  validated
+                    ? styles.loginButtonTextSelected
+                    : styles.loginButtonText
+                }
+              >
+                Entrar
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>

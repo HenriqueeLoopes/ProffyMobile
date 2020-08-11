@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   nextButtonContainer: {
+    flex: 1,
       marginVertical: 30,
   },
   nextButton: {

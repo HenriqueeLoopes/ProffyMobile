@@ -12,7 +12,7 @@ function SucessSignUp() {
   const navigation = useNavigation();
   
   function handlePressNext(){
-    return navigation.navigate('Landing');
+    return navigation.navigate('Login');
   }
 
   return (

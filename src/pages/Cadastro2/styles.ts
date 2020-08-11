@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0F0F7",
     paddingHorizontal: 30,
     marginTop: 40,
-    flex: 3,
+    flex: 5,
   },
   topText: {
     flexDirection: "row",
@@ -37,6 +37,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "#32264D",
     lineHeight: 26,
+  },
+  error: {
+    marginLeft: 5,
+    marginBottom: 10,
+  },
+  errorText: {
+    color: 'red',
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    lineHeight: 20,
   },
   InputContainer: {
     flexDirection: "column",

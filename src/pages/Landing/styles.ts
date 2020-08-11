@@ -5,11 +5,43 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#8257E5",
     justifyContent: "center",
-    padding: 40,
+    padding: 30,
+  },
+  header: {
+    marginTop: 10,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatarImg: {
+    borderRadius: 50,
+    height: 40,
+    width: 40,
+  },
+  profileName: {
+    marginLeft: 5,
+    color: '#D4C2FF',
+    fontFamily: 'Poppins_600SemiBold',
+    fontSize: 14,
+    lineHeight: 24,
+  },
+  logoutIcon: {
+
+  },
+  topContainer: {
+    flex: 1,
   },
   banner: {
     width: "100%",
     resizeMode: "contain",
+  },
+  bottomContainer: {
+    backgroundColor: '#FFF',
+    flex: 2,
   },
   title: {
     fontFamily: "Poppins_400Regular",
