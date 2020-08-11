@@ -5,13 +5,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#8257E5",
     justifyContent: "center",
-    padding: 30,
   },
   header: {
-    marginTop: 10,
+    marginTop: 40,
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 20,
   },
   avatarContainer: {
     flexDirection: 'row',
@@ -29,26 +29,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 24,
   },
-  logoutIcon: {
-
-  },
   topContainer: {
-    flex: 1,
+    flex: 3,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
   },
   banner: {
-    width: "100%",
+    flex: 1,
     resizeMode: "contain",
   },
   bottomContainer: {
     backgroundColor: '#FFF',
-    flex: 2,
+    flex: 5,
+    padding: 20,
   },
   title: {
     fontFamily: "Poppins_400Regular",
-    color: "#FFF",
+    color: "#6A6180",
     fontSize: 20,
     lineHeight: 30,
-    marginTop: 80,
   },
   titleBold: {
     fontFamily: "Poppins_600SemiBold",
@@ -78,10 +77,12 @@ const styles = StyleSheet.create({
   },
   totalConnections: {
     fontFamily: "Poppins_400Regular",
-    color: '#D4C2FF',
+    color: '#9C98A6',
     fontSize: 12,
     lineHeight: 20,
-    marginTop: 30,
+    marginTop: 20,
+    maxWidth: 130,
+    marginHorizontal: 10,
   },
 });
 

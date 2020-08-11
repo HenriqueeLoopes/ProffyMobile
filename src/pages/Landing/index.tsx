@@ -17,31 +17,29 @@ function Landing() {
   const navigation = useNavigation();
   const [totalConnections, setTotalConnections] = useState(0);
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [bio, setBio] = useState("");
 
   useEffect(() => {
-    AsyncStorage.getItem("@name").then((response) => {
-      if (response) {
-        setName(response);
-      }
-    });
-    AsyncStorage.getItem("@email").then((response) => {
-      if (response) {
-        setEmail(response);
-      }
-    });
-    AsyncStorage.getItem("@avatar").then((response) => {
-      if (response) {
-        setAvatar(response);
-      }
-    });
-    AsyncStorage.getItem("@bio").then((response) => {
-      if (response) {
-        setBio(response);
-      }
-    });
+    AsyncStorage.getItem("@name")
+      .then((response) => {
+        if (response) {
+          setName(response);
+        }
+      })
+      .catch(() => {
+        setName("Error");
+      });
+    AsyncStorage.getItem("@avatar")
+      .then((response) => {
+        if (response) {
+          setAvatar(response);
+        }
+      })
+      .catch(() => {
+        setAvatar(
+          "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png"
+        );
+      });
     api.get("/connections").then((response) => {
       const { total } = response.data;
       setTotalConnections(total);
@@ -64,18 +62,28 @@ function Landing() {
     return;
   }
 
+  function handleProfilePress(){
+    return;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.avatarContainer}>
-          <Image
-            source={{ uri: "https://github.com/HenriqueeLoopes.png" }}
-            style={styles.avatarImg}
-          />
+          <BorderlessButton onPress={handleProfilePress}>
+            <Image
+              source={{
+                uri:
+                  avatar ||
+                  "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png",
+              }}
+              style={styles.avatarImg}
+            />
+          </BorderlessButton>
           <Text style={styles.profileName}>{name}</Text>
         </View>
         <BorderlessButton onPress={handleLogOutPress}>
-          <Image source={logOutIcon} />
+          <Image source={logOutIcon} style={{borderRadius: 50}} />
         </BorderlessButton>
       </View>
 

@@ -65,7 +65,7 @@ function Login() {
         }
         await AsyncStorage.setItem("@name", data.name);
         await AsyncStorage.setItem("@email", email);
-        await AsyncStorage.setItem("@avatar", data.avatar || "");
+        await AsyncStorage.setItem("@avatar", data.avatar || "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png");
         await AsyncStorage.setItem("@bio", data.bio || "");
         setError("");
         setLoading(false);
