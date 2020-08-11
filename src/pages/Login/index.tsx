@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -54,6 +55,7 @@ function Login() {
       style={styles.container}
       behavior={Platform.OS == "ios" ? "padding" : undefined}
     >
+      <StatusBar style='light' />
       <View style={styles.topBar}>
         <ImageBackground
           source={backgroundImg}
