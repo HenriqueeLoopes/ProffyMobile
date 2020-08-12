@@ -8,6 +8,12 @@ const styles = StyleSheet.create({
     teacherList: {
         marginTop: -40,
     },
+    proffyQuantity: {
+        color: '#D4C2FF',
+        fontFamily: 'Poppins_400Regular',
+        fontSize: 14,
+        lineHeight: 18,
+    },
     searchForm: {
         marginBottom: 50,
         paddingHorizontal: 20,

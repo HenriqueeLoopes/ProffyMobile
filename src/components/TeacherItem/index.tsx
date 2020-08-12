@@ -65,7 +65,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ teacher, favorited }) => {
       <View style={styles.footer}>
         <Text style={styles.price}>
           Preco/Hora {"   "}{" "}
-          <Text style={styles.priceValue}>R$ {teacher.cost}</Text>{" "}
+          <Text style={styles.priceValue}>R$ {teacher.cost} reais</Text>{" "}
         </Text>
         <View style={styles.buttonsContainer}>
           <RectButton onPress={handleToggleFavorite} style={[styles.favoriteButton, isFavorited ? styles.favorited : {}]}>

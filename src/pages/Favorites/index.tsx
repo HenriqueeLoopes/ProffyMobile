@@ -29,7 +29,11 @@ function Favorites() {
 
   return (
     <ScrollView style={styles.container}>
-      <PageHeader title="Meus Proffys favoritos" />
+      <PageHeader title="Meus Proffys favoritos" headerRight={
+          <>
+          <Text style={styles.proffyQuantity}>😍  1 proffys</Text>
+          </>
+        } />
       <ScrollView
         style={styles.teacherList}
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import {
   ScrollView,
   TextInput,
@@ -66,9 +66,12 @@ function TeacherList() {
       <PageHeader
         title="Proffys disponiveis"
         headerRight={
+          <>
+          <Text style={styles.proffyQuantity}>🤓  32 proffys</Text>
           <BorderlessButton onPress={handleToggleFiltersVisible}>
             <Feather name="filter" size={24} color="#0080ff" />
           </BorderlessButton>
+          </>
         }
       >
         {isFiltersVisible && (
