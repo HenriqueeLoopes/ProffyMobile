@@ -24,7 +24,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, headerRight, children })
         <BorderlessButton onPress={handleGoBack}>
           <Image source={backIcon} resizeMode="contain" />
         </BorderlessButton>
-        <Image source={logoImg} resizeMode="contain" />
+        <Text style={styles.headerText}>Estudar</Text>
+        <Image source={logoImg} resizeMode="contain" style={{ height: 30, width: 50}} />
       </View>
       <View style={styles.header}>
       <Text style={styles.title}>{title}</Text>

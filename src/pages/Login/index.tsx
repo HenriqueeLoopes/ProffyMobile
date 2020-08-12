@@ -14,7 +14,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   PacmanIndicator
 } from "react-native-indicators";
-import AsyncStorage from "@react-native-community/async-storage";
 
 import backgroundImg from "../../assets/images/icons/purble-bubbles-backgorund.png";
 import logoImg from "../../assets/images/logo.png";
@@ -26,6 +25,7 @@ import styles from "./styles";
 import { useAuth } from "../../contexts/auth";
 
 function Login() {
+  const navigation = useNavigation();
   const { SignIn } = useAuth();
   const [securePasswordInput, setsecurePasswordInput] = useState(true);
   const [remebemberMe, setremebemberMe] = useState(false);
@@ -34,7 +34,6 @@ function Login() {
   const [validated, setValidated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const navigation = useNavigation();
 
   useEffect(() => {
     if (email.length >= 5 && password.length >= 5) {
@@ -79,6 +78,10 @@ function Login() {
         "estamos com problemas nos servidores, aguarde por favor ;(");
       return console.log(error);
     }
+  }
+
+  function handlePressLostPassword(){
+    return navigation.navigate('LostPassword');
   }
 
   function handlePressSignUP() {
@@ -177,7 +180,7 @@ function Login() {
             >
               Lembrar-me
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handlePressLostPassword}>
               <Text style={styles.remebemberMeAndLostPasswordText}>
                 Esqueci minha senha
               </Text>

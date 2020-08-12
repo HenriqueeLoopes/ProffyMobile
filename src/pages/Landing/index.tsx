@@ -60,7 +60,6 @@ function Landing() {
         <BorderlessButton onPress={handleLogOutPress}>
           <Image
             source={logOutIcon}
-            style={{ borderRadius: 50, borderWidth: 0.5, borderColor: "#FFF" }}
           />
         </BorderlessButton>
       </View>

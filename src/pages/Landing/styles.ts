@@ -21,8 +21,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 40,
     width: 40,
-    borderWidth: 0.5,
-    borderColor: '#FFF',
   },
   profileName: {
     marginLeft: 5,
