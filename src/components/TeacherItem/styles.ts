@@ -41,11 +41,17 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: "#6A6180",
   },
+  middleContainer: {
+    backgroundColor: "#FAFAFC",
+    paddingHorizontal: 20,
+    marginTop: 10,
+    borderTopWidth: 1,
+    borderColor: "#E6E6F0",
+  },
   footer: {
     backgroundColor: "#FAFAFC",
     padding: 24,
     alignItems: "center",
-    marginTop: 24,
   },
   price: {
     fontFamily: "Poppins_400Regular",
@@ -71,12 +77,12 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   favorited: {
-    backgroundColor: '#E33D3D',
+    backgroundColor: "#E33D3D",
   },
   contactButton: {
     backgroundColor: "#04D361",
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 56,
     borderRadius: 8,
     justifyContent: "center",
@@ -84,10 +90,10 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   contactButtonText: {
-      color: '#FFF',
-      fontFamily: 'Archivo_700Bold',
-      fontSize: 16,
-      marginLeft: 16,
+    color: "#FFF",
+    fontFamily: "Archivo_600SemiBold",
+    fontSize: 16,
+    marginLeft: 16,
   },
 });
 

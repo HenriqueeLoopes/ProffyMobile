@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
@@ -33,13 +33,13 @@ function StudyTabs() {
         },
         labelStyle: {
           fontFamily: "Archivo_700Bold",
-          fontSize: 13,
-          marginLeft: 16,
+          fontSize: 14,
+          marginLeft: 10,
         },
         inactiveBackgroundColor: "#fafafc",
-        activeBackgroundColor: "#ebebf5",
+        activeBackgroundColor: "#EBEBF5",
         inactiveTintColor: "#c1bccc",
-        activeTintColor: "#32326d",
+        activeTintColor: "#32264D",
       }}
     >
       <Screen
@@ -47,7 +47,7 @@ function StudyTabs() {
         options={{
           tabBarLabel: "Proffys",
           tabBarIcon: ({ color, size, focused }) => {
-            return <Ionicons name="ios-easel" size={size} color={focused ? "#8257e5" : color} />;
+            return <Ionicons name="ios-easel" size={size} color={focused ? "#8257E5" : color} />;
           },
         }}
         component={TeacherList}
@@ -57,7 +57,7 @@ function StudyTabs() {
         options={{
           tabBarLabel: "Favoritos",
           tabBarIcon: ({ color, size, focused }) => {
-            return <Ionicons name="ios-heart" size={size} color={focused ? "#8257e5" : color} />;
+            return <Ionicons name="ios-heart" size={size} color={focused ? "#8257E5" : color} />;
           },
         }}
         component={Favorites}

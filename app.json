@@ -11,7 +11,7 @@
       "backgroundColor": "#8257E5"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 500
     },
     "assetBundlePatterns": [
       "**/*"

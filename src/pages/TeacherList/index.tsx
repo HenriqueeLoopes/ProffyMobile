@@ -8,13 +8,14 @@ import {
 } from "react-native-gesture-handler";
 import api from "../../services/api";
 import { Feather } from "@expo/vector-icons";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 
 import styles from "./styles";
 import PageHeader from "../../components/PageHeader";
 import TeacherItem, { Teacher } from "../../components/TeacherItem";
 
 function TeacherList() {
+  const [teachersCount, setTeachersCount] = useState(0);
   const [teachers, setTeachers] = useState([]);
   const [favorites, setFavorites] = useState<number[]>([]);
   const [isFiltersVisible, setIsFiltersVisible] = useState(false);
@@ -22,13 +23,13 @@ function TeacherList() {
   const [week_day, setWeek_Day] = useState("");
   const [time, setTime] = useState("");
 
-  async function loadFavorites(){
-    const storage = await AsyncStorage.getItem('favorites');
-    if (storage){
+  async function loadFavorites() {
+    const storage = await AsyncStorage.getItem("favorites");
+    if (storage) {
       const FavoritedTeachers = JSON.parse(storage);
       const FavoritedTeachersID = FavoritedTeachers.map((teacher: Teacher) => {
         return teacher.id;
-      })
+      });
       setFavorites(FavoritedTeachersID);
     }
   }
@@ -36,8 +37,13 @@ function TeacherList() {
   useEffect(() => {
     setTimeout(() => {
       async function fetchData() {
-        const response = await api.get("/all-classes");
-        setTeachers(response.data);
+        try {
+          const response = await api.get("/all-classes");
+          setTeachers(response.data);
+          return setTeachersCount(response.data.length);
+        } catch (error) {
+            return console.log(error);
+        }
       }
       fetchData();
       loadFavorites();
@@ -48,17 +54,22 @@ function TeacherList() {
     setIsFiltersVisible(!isFiltersVisible);
   }
 
-  async function handleFiltersSubmit(){
+  async function handleFiltersSubmit() {
     loadFavorites();
-    const response = await api.get("/classes", {
-      params: {
-        subject,
-        week_day,
-        time,
-      },
-    });
-    setIsFiltersVisible(false);
-    setTeachers(response.data);
+    try {
+      const response = await api.get("/classes", {
+        params: {
+          subject,
+          week_day,
+          time,
+        },
+      });
+      setTeachersCount(response.data.length);
+      setIsFiltersVisible(false);
+      return setTeachers(response.data);
+    } catch (error) {
+      return console.log(error);
+    }
   }
 
   return (
@@ -67,10 +78,10 @@ function TeacherList() {
         title="Proffys disponiveis"
         headerRight={
           <>
-          <Text style={styles.proffyQuantity}>🤓  32 proffys</Text>
-          <BorderlessButton onPress={handleToggleFiltersVisible}>
-            <Feather name="filter" size={24} color="#0080ff" />
-          </BorderlessButton>
+            <Text style={styles.proffyQuantity}>🤓 {teachersCount} proffys</Text>
+            <BorderlessButton onPress={handleToggleFiltersVisible}>
+              <Feather name="filter" size={24} color="#0080ff" />
+            </BorderlessButton>
           </>
         }
       >
@@ -106,7 +117,10 @@ function TeacherList() {
                 />
               </View>
             </View>
-            <RectButton onPress={handleFiltersSubmit} style={styles.submitButton}>
+            <RectButton
+              onPress={handleFiltersSubmit}
+              style={styles.submitButton}
+            >
               <Text style={styles.submitTextButton}>Filtrar</Text>
             </RectButton>
           </View>
@@ -118,7 +132,11 @@ function TeacherList() {
       >
         {teachers.map((teacher: Teacher, index) => {
           return (
-            <TeacherItem key={index} teacher={teacher} favorited={favorites.includes(teacher.id)} />
+            <TeacherItem
+              key={index}
+              teacher={teacher}
+              favorited={favorites.includes(teacher.id)}
+            />
           );
         })}
       </ScrollView>

@@ -14,23 +14,32 @@ import logOutIcon from "../../assets/images/icons/log-out-icon.png";
 import { useAuth } from "../../contexts/auth";
 
 function Landing() {
-  const { user, signOut } = useAuth();
   const navigation = useNavigation();
+  const { user, signOut } = useAuth();
   const [totalConnections, setTotalConnections] = useState(0);
 
+  async function getConnectionsCount(){
+    try {
+      const response = await api.get("/connections");
+      if (response.status === 200){
+        const { total } = response.data;
+        return setTotalConnections((total + 546));
+      }
+    } catch (error) {
+      return console.log('/connections request error: ' + error);
+    }
+  }
+
   useEffect(() => {
-    api.get("/connections").then((response) => {
-      const { total } = response.data;
-      setTotalConnections(total);
-    });
+    getConnectionsCount();
   }, []);
 
   function handleNavigationToGiveClassesPage() {
-    navigation.navigate("GiveClasses");
+    return navigation.navigate("GiveClasses");
   }
 
   function handleNavigateToStudyPages() {
-    navigation.navigate("Study");
+    return navigation.navigate("Study");
   }
 
   function handleLogOutPress() {
@@ -38,7 +47,7 @@ function Landing() {
   }
 
   function handleProfilePress() {
-    return;
+    return navigation.navigate('Profile');
   }
 
   return (

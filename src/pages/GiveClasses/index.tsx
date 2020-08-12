@@ -10,16 +10,17 @@ import { useNavigation } from '@react-navigation/native';
 function GiveClasses(){
     const navigation = useNavigation();
     function handleNavigateBack(){
-        navigation.goBack();
+        return navigation.navigate('Profile');
     }
+
     return (
     <View style={styles.container}>
         <ImageBackground source={giveClassesBGImage} style={styles.content} resizeMode={"contain"}>
             <Text style={styles.title}>Quer ser um Proffy?</Text>
-            <Text style={styles.description}>Para comecar, voce precisa se cadastrar como professor em nossa plataforma web.</Text>
+            <Text style={styles.description}>Para comecar, voce precisa atualizar o seu cadastro!</Text>
         </ImageBackground>
         <RectButton onPress={handleNavigateBack} style={styles.okButton}>
-            <Text style={styles.okButtonText}>Beleza!</Text>
+            <Text style={styles.okButtonText}>Atualizar agora!</Text>
         </RectButton>
     </View>
     );

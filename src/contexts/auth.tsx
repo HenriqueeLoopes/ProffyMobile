@@ -10,9 +10,15 @@ interface ResponseSignInUser {
 }
 
 interface User {
+  id: number;
+  email: string;
   name: string;
   avatar: string;
   bio: string;
+  whatsapp: string;
+  subject: string;
+  cost: number;
+  token: string;
 }
 
 interface AuthContextData {
