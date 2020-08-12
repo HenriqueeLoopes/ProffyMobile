@@ -11,35 +11,14 @@ import studyIcon from "../../assets/images/icons/study.png";
 import giveClassesIcon from "../../assets/images/icons/give-classes.png";
 import heartIcon from "../../assets/images/icons/heart.png";
 import logOutIcon from "../../assets/images/icons/log-out-icon.png";
-import AsyncStorage from "@react-native-community/async-storage";
+import { useAuth } from "../../contexts/auth";
 
 function Landing() {
+  const { user, signOut } = useAuth();
   const navigation = useNavigation();
   const [totalConnections, setTotalConnections] = useState(0);
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
-    AsyncStorage.getItem("@name")
-      .then((response) => {
-        if (response) {
-          setName(response);
-        }
-      })
-      .catch(() => {
-        setName("Error");
-      });
-    AsyncStorage.getItem("@avatar")
-      .then((response) => {
-        if (response) {
-          setAvatar(response);
-        }
-      })
-      .catch(() => {
-        setAvatar(
-          "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png"
-        );
-      });
     api.get("/connections").then((response) => {
       const { total } = response.data;
       setTotalConnections(total);
@@ -55,14 +34,10 @@ function Landing() {
   }
 
   function handleLogOutPress() {
-    AsyncStorage.removeItem("@rememberme").then((resposnse) => {
-      navigation.navigate("Login");
-      return;
-    });
-    return;
+    return signOut();
   }
 
-  function handleProfilePress(){
+  function handleProfilePress() {
     return;
   }
 
@@ -74,16 +49,19 @@ function Landing() {
             <Image
               source={{
                 uri:
-                  avatar ||
+                  user?.avatar ||
                   "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png",
               }}
               style={styles.avatarImg}
             />
           </BorderlessButton>
-          <Text style={styles.profileName}>{name}</Text>
+          <Text style={styles.profileName}>{user?.name}</Text>
         </View>
         <BorderlessButton onPress={handleLogOutPress}>
-          <Image source={logOutIcon} style={{borderRadius: 50}} />
+          <Image
+            source={logOutIcon}
+            style={{ borderRadius: 50, borderWidth: 0.5, borderColor: "#FFF" }}
+          />
         </BorderlessButton>
       </View>
 

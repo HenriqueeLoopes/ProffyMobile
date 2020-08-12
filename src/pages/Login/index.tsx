@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   PacmanIndicator
 } from "react-native-indicators";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import backgroundImg from "../../assets/images/icons/purble-bubbles-backgorund.png";
 import logoImg from "../../assets/images/logo.png";
@@ -21,10 +22,11 @@ import showPasswordIcon from "../../assets/images/icons/show-password.png";
 import hidePasswordIcon from "../../assets/images/icons/hide-password.png";
 
 import styles from "./styles";
-import api from "../../services/api";
-import AsyncStorage from "@react-native-community/async-storage";
+
+import { useAuth } from "../../contexts/auth";
 
 function Login() {
+  const { SignIn } = useAuth();
   const [securePasswordInput, setsecurePasswordInput] = useState(true);
   const [remebemberMe, setremebemberMe] = useState(false);
   const [email, setEmail] = useState("");
@@ -52,24 +54,12 @@ function Login() {
   async function handlePressLogin() {
     try {
       setLoading(true);
-      const response = await api.post("/login-user", {
-        email,
-        senha: password,
-      }, { timeout: 2000 });
+      const response = await SignIn(email, password, remebemberMe);
       if (response.status === 200) {
-        const { error, message, data } = response.data;
-        if (remebemberMe) {
-          await AsyncStorage.setItem("@rememberme", "True");
-        } else {
-          await AsyncStorage.setItem("@rememberme", "False");
-        }
-        await AsyncStorage.setItem("@name", data.name);
-        await AsyncStorage.setItem("@email", email);
-        await AsyncStorage.setItem("@avatar", data.avatar || "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png");
-        await AsyncStorage.setItem("@bio", data.bio || "");
+        //const { error, message, data } = response.data;
         setError("");
         setLoading(false);
-        return navigation.navigate("Landing");
+        return;
       }
       return;
     } catch (error) {
@@ -87,9 +77,8 @@ function Login() {
       }
       setError(
         "estamos com problemas nos servidores, aguarde por favor ;(");
-      return console.log(error.response);
+      return console.log(error);
     }
-    return;
   }
 
   function handlePressSignUP() {

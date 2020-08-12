@@ -18,10 +18,6 @@ function Onboarding() {
       try {
         const response = await AsyncStorage.getItem('@onBoarding');
         if (response == 'True'){
-          const rememberme = await AsyncStorage.getItem('@rememberme');
-          if (rememberme == 'True'){
-            return navigation.navigate('Landing');
-          }
           return navigation.navigate('Login');
         }
       } catch (error) {

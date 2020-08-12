@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   header: {
-    marginTop: 40,
+    marginTop: 30,
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
@@ -21,6 +21,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     height: 40,
     width: 40,
+    borderWidth: 0.5,
+    borderColor: '#FFF',
   },
   profileName: {
     marginLeft: 5,
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   topContainer: {
-    flex: 3,
+    flex: 2,
     paddingHorizontal: 20,
     paddingVertical: 20,
   },
