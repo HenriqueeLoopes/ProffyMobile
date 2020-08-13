@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import {
   BorderlessButton,
@@ -29,6 +30,12 @@ export default function Profile() {
   const { user, signOut } = useAuth();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(user?.name);
+  const [email, setEmail] = useState(user?.email);
+  const [avatar, setAvatar] = useState(user?.avatar);
+  const [bio, setBio] = useState(user?.bio);
+  const [whatsapp, setWhatsApp] = useState(user?.whatsapp);
+  const [subject, setSubject] = useState(user?.subject);
+  const [cost, setCost] = useState(user?.cost);
   const [scheduleItems, setScheduleItems] = useState([
     { week_day: 0, from: "", to: "" },
   ]);
@@ -55,14 +62,30 @@ export default function Profile() {
     setScheduleItems(updatedScheduleItem);
   }
 
-  async function handlePressSave(){
-    return navigation.navigate('SucessProfileUpdate');
+  async function handlePressSave() {
+    if (
+      (name && name.length < 5) ||
+      !name ||
+      (email && email.length < 5) ||
+      !email ||
+      (whatsapp && whatsapp.length < 5) ||
+      !whatsapp ||
+      (bio && bio.length < 5) ||
+      !bio ||
+      (subject && subject.length < 2) ||
+      !subject ||
+      !cost
+    ) {
+      return Alert.alert("Proffy", "por favor, preencha todos os campos!");
+    }
+
+    return navigation.navigate("SucessProfileUpdate");
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.headerContainer}>
-        <BorderlessButton onPress={() => navigation.navigate('Landing')}>
+        <BorderlessButton onPress={() => navigation.navigate("Landing")}>
           <Image source={backIcon} resizeMode="contain" />
         </BorderlessButton>
         <Text style={styles.headerText}>Meu Perfil</Text>
@@ -80,20 +103,17 @@ export default function Profile() {
           resizeMode="contain"
         >
           <View style={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
-            <Image source={{ uri: user?.avatar }} style={styles.profileImg} />
+            <Image source={{ uri: avatar }} style={styles.profileImg} />
             <BorderlessButton style={{ marginTop: -35 }}>
               <Image source={cameraIcon} />
             </BorderlessButton>
           </View>
-          <Text style={styles.profileName}>{user?.name}</Text>
-          <Text style={styles.profileSubject}>{user?.subject}</Text>
+          <Text style={styles.profileName}>{name}</Text>
+          <Text style={styles.profileSubject}>{subject}</Text>
         </ImageBackground>
       </View>
       <View style={styles.bottomContainer}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={styles.profileDataContainer}
-        >
+        <View style={styles.profileDataContainer}>
           <Text style={styles.profileTitle}>Seus dados:</Text>
           <View style={styles.lineSeparator} />
           <Text style={styles.dataLabel}>Nome</Text>
@@ -111,6 +131,8 @@ export default function Profile() {
             placeholder="seu-email@gmail.com"
             maxLength={40}
             placeholderTextColor="#6A6180"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
           <Text style={styles.dataLabel}>WhatsApp</Text>
           <TextInput
@@ -118,6 +140,8 @@ export default function Profile() {
             placeholder="(47) 9.8897-1458"
             maxLength={40}
             placeholderTextColor="#6A6180"
+            value={whatsapp}
+            onChangeText={(text) => setWhatsApp(text)}
           />
           <Text style={styles.dataLabel}>Bio</Text>
           <TextInput
@@ -126,6 +150,8 @@ export default function Profile() {
             maxLength={250}
             placeholderTextColor="#6A6180"
             multiline
+            value={bio}
+            onChangeText={(text) => setBio(text)}
           />
 
           <Text style={styles.profileTitle}>Sobre a aula</Text>
@@ -137,6 +163,8 @@ export default function Profile() {
             maxLength={250}
             placeholderTextColor="#6A6180"
             multiline
+            value={subject}
+            onChangeText={(text) => setSubject(text)}
           />
           <Text style={styles.dataLabel}>Custo da sua hora por aula</Text>
           <TextInput
@@ -145,6 +173,8 @@ export default function Profile() {
             maxLength={250}
             placeholderTextColor="#6A6180"
             keyboardType="numeric"
+            value={cost?.toString()}
+            onChangeText={(text) => setCost(parseInt(text))}
           />
 
           <View style={styles.timeAvailable}>
@@ -162,7 +192,7 @@ export default function Profile() {
                   <Text style={styles.dataLabel}>Dia da semana</Text>
                   <TextInput
                     style={styles.dataInput}
-                    placeholder="Geografia"
+                    placeholder="Segunda-Feira"
                     maxLength={250}
                     placeholderTextColor="#6A6180"
                     multiline
@@ -198,7 +228,10 @@ export default function Profile() {
             })}
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.loginButton} onPress={handlePressSave}>
+              <TouchableOpacity
+                style={styles.loginButton}
+                onPress={handlePressSave}
+              >
                 {loading ? (
                   <PacmanIndicator
                     color="white"
@@ -211,8 +244,8 @@ export default function Profile() {
               </TouchableOpacity>
             </View>
           </View>
-        </ScrollView>
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }

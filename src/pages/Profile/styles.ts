@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#8257e5",
   },
   headerContainer: {
-    paddingTop: 40,
+    paddingTop: 30,
     backgroundColor: "#774DD6",
     flexDirection: "row",
     alignItems: "center",
@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
     justifyContent: "center",
-    paddingBottom: 10,
+    paddingTop: 20,
+    paddingBottom: 40,
   },
   banner: {
     justifyContent: "center",
@@ -147,7 +148,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 20,
-    marginBottom: 40,
   },
   loginButton: {
     backgroundColor: "#04D361",
