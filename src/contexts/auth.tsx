@@ -30,7 +30,7 @@ interface AuthContextData {
     remebemberMe: boolean
   ): Promise<AxiosResponse<ResponseSignInUser>>;
   signOut(): void;
-  updateUserAvatar(avatar?: string): void;
+  updateUserAvatar(avatar?: string): boolean;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -38,11 +38,19 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  function updateUserAvatar(avatar: string) {
+  async function updateUserAvatar(avatar: string) {
     if (avatar && user) {
-      return setUser({ ...user, avatar });
+      try {
+        const response = await api.post('/update-user', { email: user.email, name: user.name, avatar, whatsapp: user.whatsapp, bio: user.bio }, { timeout: 2000 });
+      } catch (error) {
+        console.log(error)
+        return false;
+      }
+      setUser({ ...user, avatar })
+      await AsyncStorage.removeItem("@RNAuth:user");
+      return true;
     }
-    return;
+    return false;
   }
 
   useEffect(() => {

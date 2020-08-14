@@ -25,6 +25,7 @@ import cameraIcon from "../../assets/images/icons/camera-icon.png";
 import styles from "./styles";
 
 import { useAuth } from "../../contexts/auth";
+import api from "../../services/api";
 
 export default function Profile() {
   const navigation = useNavigation();
@@ -120,7 +121,9 @@ export default function Profile() {
     }).then(async r => {
       let data = await r.json();
       if (data.url){
-        updateUserAvatar(data.url);
+        if (!updateUserAvatar(data.url)){
+          return Alert.alert('Proffy', 'Ocorreu um erro ao enviar a sua foto!');
+        }
         return setAvatar(data.url);
       }else{
         Alert.alert('Proffy', 'Ocorreu um erro ao enviar a sua foto!')
