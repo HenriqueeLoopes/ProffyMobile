@@ -30,7 +30,7 @@ interface AuthContextData {
     remebemberMe: boolean
   ): Promise<AxiosResponse<ResponseSignInUser>>;
   signOut(): void;
-  updateUserAvatar(avatar?: string): boolean;
+  updateUserAvatar(avatar: string): Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);

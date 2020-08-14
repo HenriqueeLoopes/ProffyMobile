@@ -81,14 +81,23 @@ export default function Profile() {
     ) {
       return Alert.alert("Proffy", "por favor, preencha todos os campos!");
     }
-
-    return navigation.navigate("SucessProfileUpdate");
+    try {
+        const response = await api.post('/update-user', { email, name, avatar, whatsapp, bio }, { timeout: 2000 });
+        if (response.status != 200){
+          return Alert.alert("Proffy", "Ocorreu um erro ao salvar seus dados!");
+        }
+        return navigation.navigate("SucessProfileUpdate");
+    } catch (error) {
+      console.log(error)
+      return false;
+    }
+    return Alert.alert("Proffy", "Ocorreu um erro ao salvar seus dados!");
   }
 
   async function openImagePickerAsync(){
     let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
     if (permissionResult.granted === false) {
-      alert('Precisamos da permissao para voce escolher sua imagem!');
+      alert('Precisamos de sua permissao para voce escolher sua imagem!');
       return;
     }
 
