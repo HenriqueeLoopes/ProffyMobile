@@ -30,12 +30,20 @@ interface AuthContextData {
     remebemberMe: boolean
   ): Promise<AxiosResponse<ResponseSignInUser>>;
   signOut(): void;
+  updateUserAvatar(avatar?: string): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+
+  function updateUserAvatar(avatar: string) {
+    if (avatar && user) {
+      return setUser({ ...user, avatar });
+    }
+    return;
+  }
 
   useEffect(() => {
     async function loadStorageData() {
@@ -71,7 +79,7 @@ const AuthProvider: React.FC = ({ children }) => {
     if (response.data.data) {
       if (remebemberMe) {
         await AsyncStorage.multiSet([
-          ["@RNAuth:token", response.data.data.token || 'nao_retornou_da_api'],
+          ["@RNAuth:token", response.data.data.token || "nao_retornou_da_api"],
           ["@RNAuth:user", JSON.stringify(response.data.data)],
         ]);
       }
@@ -87,7 +95,9 @@ const AuthProvider: React.FC = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, SignIn, signOut }}>
+    <AuthContext.Provider
+      value={{ signed: !!user, user, SignIn, signOut, updateUserAvatar }}
+    >
       {children}
     </AuthContext.Provider>
   );

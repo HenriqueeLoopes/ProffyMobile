@@ -28,7 +28,7 @@ import { useAuth } from "../../contexts/auth";
 
 export default function Profile() {
   const navigation = useNavigation();
-  const { user, signOut } = useAuth();
+  const { user, signOut, updateUserAvatar } = useAuth();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
@@ -93,7 +93,7 @@ export default function Profile() {
 
     let pickerResult = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       base64: true,
       quality: 0.7,
       allowsMultipleSelection: false,
@@ -108,7 +108,7 @@ export default function Profile() {
 
     let data = {
       "file": base64Img,
-      "upload_preset": 'ml_default',
+      "upload_preset": 'ml_default'
     }
 
     fetch(CLOUDINARY_URL, {
@@ -119,9 +119,12 @@ export default function Profile() {
       method: 'POST',
     }).then(async r => {
       let data = await r.json();
-
-      setAvatar(data.url);
-      console.log(data);
+      if (data.url){
+        updateUserAvatar(data.url);
+        return setAvatar(data.url);
+      }else{
+        Alert.alert('Proffy', 'Ocorreu um erro ao enviar a sua foto!')
+      }
     }).catch(err => console.log(err))
   };
 
