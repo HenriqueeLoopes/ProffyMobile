@@ -15,6 +15,7 @@ import {
 } from "react-native-gesture-handler";
 import { PacmanIndicator } from "react-native-indicators";
 import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from 'expo-image-picker';
 
 import backgroundImg from "../../assets/images/icons/purble-bubbles-backgorund.png";
 import backIcon from "../../assets/images/icons/back.png";
@@ -31,7 +32,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
-  const [avatar, setAvatar] = useState(user?.avatar);
+  const [avatar, setAvatar] = useState(user?.avatar || "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-512.png");
   const [bio, setBio] = useState(user?.bio);
   const [whatsapp, setWhatsApp] = useState(user?.whatsapp);
   const [subject, setSubject] = useState(user?.subject);
@@ -39,6 +40,7 @@ export default function Profile() {
   const [scheduleItems, setScheduleItems] = useState([
     { week_day: 0, from: "", to: "" },
   ]);
+  let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/henriqueeloopes/upload';
 
   function addNewScheduleItem() {
     setScheduleItems([...scheduleItems, { week_day: 0, from: "", to: "" }]);
@@ -82,6 +84,47 @@ export default function Profile() {
     return navigation.navigate("SucessProfileUpdate");
   }
 
+  async function openImagePickerAsync(){
+    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert('Precisamos da permissao para voce escolher sua imagem!');
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      base64: true,
+      quality: 0.7,
+      allowsMultipleSelection: false,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images
+    });
+
+    if (pickerResult.cancelled === true) {
+      return;
+    }
+
+    let base64Img = `data:image/jpg;base64,${pickerResult.base64}`;
+
+    let data = {
+      "file": base64Img,
+      "upload_preset": 'ml_default',
+    }
+
+    fetch(CLOUDINARY_URL, {
+      body: JSON.stringify(data),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST',
+    }).then(async r => {
+      let data = await r.json();
+
+      setAvatar(data.url);
+      console.log(data);
+    }).catch(err => console.log(err))
+  };
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.headerContainer}>
@@ -104,7 +147,7 @@ export default function Profile() {
         >
           <View style={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
             <Image source={{ uri: avatar }} style={styles.profileImg} />
-            <BorderlessButton style={{ marginTop: -35 }}>
+            <BorderlessButton style={{ marginTop: -35 }} onPress={openImagePickerAsync} >
               <Image source={cameraIcon} />
             </BorderlessButton>
           </View>
