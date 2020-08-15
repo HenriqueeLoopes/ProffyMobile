@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Platform, Alert } from "react-native";
 import {
   ScrollView,
   TextInput,
@@ -9,6 +9,7 @@ import {
 import api from "../../services/api";
 import { Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-community/async-storage";
+import { Picker } from "@react-native-community/picker";
 
 import styles from "./styles";
 import PageHeader from "../../components/PageHeader";
@@ -19,9 +20,9 @@ function TeacherList() {
   const [teachers, setTeachers] = useState([]);
   const [favorites, setFavorites] = useState<number[]>([]);
   const [isFiltersVisible, setIsFiltersVisible] = useState(false);
-  const [subject, setSubject] = useState("");
-  const [week_day, setWeek_Day] = useState("");
-  const [time, setTime] = useState("");
+  const [subject, setSubject] = useState('TI');
+  const [week_day, setWeek_Day] = useState('1');
+  const [time, setTime] = useState('540');
 
   async function loadFavorites() {
     const storage = await AsyncStorage.getItem("favorites");
@@ -42,7 +43,7 @@ function TeacherList() {
           setTeachers(response.data);
           return setTeachersCount(response.data.length);
         } catch (error) {
-            return console.log(error);
+          return console.log(error);
         }
       }
       fetchData();
@@ -68,7 +69,10 @@ function TeacherList() {
       setIsFiltersVisible(false);
       return setTeachers(response.data);
     } catch (error) {
-      return console.log(error);
+      if (error.response.status && error.response.status == 400){
+        return Alert.alert('Proffy', 'Nenhuma aula encontrada com este filtro!');
+      }
+      return console.log(error.response);
     }
   }
 
@@ -78,7 +82,9 @@ function TeacherList() {
         title="Proffys disponiveis"
         headerRight={
           <>
-            <Text style={styles.proffyQuantity}>🤓 {teachersCount} proffys</Text>
+            <Text style={styles.proffyQuantity}>
+              🤓 {teachersCount} proffys
+            </Text>
             <BorderlessButton onPress={handleToggleFiltersVisible}>
               <Feather name="filter" size={24} color="#0080ff" />
             </BorderlessButton>
@@ -88,33 +94,52 @@ function TeacherList() {
         {isFiltersVisible && (
           <View style={styles.searchForm}>
             <Text style={styles.label}>Materia</Text>
-            <TextInput
+            <Picker
+              selectedValue={subject}
               style={styles.input}
-              placeholder="Qual materia ?"
-              placeholderTextColor="#c1bccc"
-              value={subject}
-              onChangeText={(text) => setSubject(text)}
-            />
+              onValueChange={(itemValue) => setSubject(itemValue.toString())}
+            >
+              <Picker.Item label="TI" value="TI" />
+            </Picker>
             <View style={styles.inputGroup}>
               <View style={styles.inputBlock}>
                 <Text style={styles.label}>Dia da semana</Text>
-                <TextInput
+                <Picker
+                  selectedValue={week_day}
                   style={styles.input}
-                  placeholder="Qual dia?"
-                  placeholderTextColor="#c1bccc"
-                  value={week_day}
-                  onChangeText={(text) => setWeek_Day(text)}
-                />
+                  onValueChange={(itemValue) =>
+                    setWeek_Day(itemValue.toString())
+                  }
+                >
+                  <Picker.Item label="Domingo" value={"0"} />
+                  <Picker.Item label="Segunda-Feira" value={"1"} />
+                  <Picker.Item label="Terca-Feira" value={"2"} />
+                  <Picker.Item label="Quarta-Feira" value={"3"} />
+                  <Picker.Item label="Quinta-Feira" value={"4"} />
+                  <Picker.Item label="Sexta-Feira" value={"5"} />
+                  <Picker.Item label="Sabado" value={"6"} />
+                </Picker>
               </View>
               <View style={styles.inputBlock}>
                 <Text style={styles.label}>Horario</Text>
-                <TextInput
+                <Picker
+                  selectedValue={time}
                   style={styles.input}
-                  placeholder="Qual horario?"
-                  placeholderTextColor="#c1bccc"
-                  value={time}
-                  onChangeText={(text) => setTime(text)}
-                />
+                  onValueChange={(itemValue) => setTime(itemValue.toString())}
+                >
+                  <Picker.Item label="07:00AM" value={"07:00"} />
+                  <Picker.Item label="08:00AM" value={"08:00"} />
+                  <Picker.Item label="09:00AM" value={"09:00"} />
+                  <Picker.Item label="10:00AM" value={"10:00"} />
+                  <Picker.Item label="11:00AM" value={"11:00"} />
+                  <Picker.Item label="12:00PM" value={"12:00"} />
+                  <Picker.Item label="13:00PM" value={"13:00"} />
+                  <Picker.Item label="14:00PM" value={"14:00"} />
+                  <Picker.Item label="15:00PM" value={"15:00"} />
+                  <Picker.Item label="16:00PM" value={"16:00"} />
+                  <Picker.Item label="17:00PM" value={"17:00"} />
+                  <Picker.Item label="18:00PM" value={"18:00"} />
+                </Picker>
               </View>
             </View>
             <RectButton

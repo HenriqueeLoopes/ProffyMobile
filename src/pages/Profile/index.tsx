@@ -26,6 +26,7 @@ import styles from "./styles";
 
 import { useAuth } from "../../contexts/auth";
 import api from "../../services/api";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export default function Profile() {
   const navigation = useNavigation();
@@ -86,6 +87,7 @@ export default function Profile() {
         if (response.status != 200){
           return Alert.alert("Proffy", "Ocorreu um erro ao salvar seus dados!");
         }
+        await AsyncStorage.removeItem("@RNAuth:user");
         return navigation.navigate("SucessProfileUpdate");
     } catch (error) {
       console.log(error)
